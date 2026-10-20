@@ -5,11 +5,13 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Application React Router : rechargement d'une URL interne
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Espace de maquettes : ne pas indexer comme le site de production
 [[headers]]
   for = "/*"
   [headers.values]

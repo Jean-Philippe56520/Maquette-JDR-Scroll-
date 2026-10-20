@@ -1,0 +1,161 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    JDRSCROLL MVP - QUICKSTART GUIDE
+═══════════════════════════════════════════════════════════════════════════════
+
+ÉTAPES D'INSTALLATION & DÉMARRAGE
+──────────────────────────────────────────────────────────────────────────────
+
+1️⃣ INSTALLER LES DÉPENDANCES
+   $ npm install
+   
+   ✓ React 18.3 + TypeScript
+   ✓ React Router v6
+   ✓ Tailwind CSS 3.4
+   ✓ Recharts 2.12 (graphiques)
+   ✓ Lucide React (icônes)
+   ✓ Vite 5.4 (build)
+
+2️⃣ DÉMARRER LE SERVEUR DE DÉVELOPPEMENT
+   $ npm run dev
+   
+   → App ouvre automatiquement à http://localhost:5173
+   → Hot reload activé
+
+3️⃣ EXPLORER LE PROTOTYPE
+   
+   Cliquez "Changer de profil" (en haut à droite) pour tester:
+   
+   ☐ Explorateur (Visiteur) - Accès lecture seule
+   ☐ Aventurier Valentin (Joueur) - Accès partiel
+   ☐ Maître Élodie (MJ) - Accès complet
+   ☐ Éditions D&D Premium (Éditeur) - Dashboard
+
+4️⃣ PAGES À TESTER (ordre recommandé)
+   
+   → / (Landing)
+      Découvrez la promesse produit
+      
+   → /catalog
+      Explorez jeux et livres avec filtres
+      Changez de vue: Livres ↔ Jeux
+      
+   → /book/dnd-players-guide
+      Fiche détail livre avec accès verrouillés
+      
+   → /game/dd5
+      Fiche détail jeu avec stats
+      
+   → /pricing
+      Comparez les 3 offres d'abonnement
+      
+   → /dashboard
+      (Sélectionnez profil Éditeur d'abord)
+      Dashboard complet avec graphiques
+      
+   → /library
+      (Sélectionnez profil Joueur ou MJ)
+      Votre bibliothèque personnelle
+      
+5️⃣ CONSTRUIRE POUR PRODUCTION
+   $ npm run build
+   
+   → Fichiers de production dans /dist
+   → Prêt pour deployment
+   → Build verification: npm run preview
+
+══════════════════════════════════════════════════════════════════════════════════
+
+STRUCTURE DU PROJET
+──────────────────────────────────────────────────────────────────────────────
+
+src/
+├── components/              Composants réutilisables
+│   ├── Header.tsx           Navigation
+│   ├── Footer.tsx           Pied de page
+│   ├── BookCard.tsx         Carte livre
+│   ├── GameCard.tsx         Carte jeu
+│   ├── AccessBadge.tsx      Badge d'accès/verrou
+│   └── ProfileSwitcher.tsx  Changeur de profil
+│
+├── context/
+│   └── UserContext.tsx      Gestion des profils utilisateurs
+│
+├── data/
+│   └── mockData.ts          Toutes les données mockées
+│                            - 6 jeux
+│                            - 10 livres
+│                            - 4 profils
+│                            - Stats éditeur
+│
+├── pages/                   12 pages complètes
+│   ├── Landing.tsx          Public landing page
+│   ├── Home.tsx             Dashboard connecté
+│   ├── Catalog.tsx          Catalogue filtrable
+│   ├── BookDetail.tsx       Fiche livre
+│   ├── GameDetail.tsx       Fiche jeu
+│   ├── Reader.tsx           Lecteur mocké
+│   ├── Library.tsx          Bibliothèque perso
+│   ├── Pricing.tsx          Offres d'abonnement
+│   ├── Dashboard.tsx        Dashboard éditeur
+│   ├── Account.tsx          Profil utilisateur
+│   ├── Trends.tsx           Contenu populaire
+│   └── New.tsx              Nouveautés
+│
+├── App.tsx                  Router principal
+├── main.tsx                 Entrée React
+└── index.css                Styles globaux
+
+══════════════════════════════════════════════════════════════════════════════════
+
+POINTS CLÉS POUR LA DÉMO
+──────────────────────────────────────────────────────────────────────────────
+
+✨ DESIGN ORANGE MYSTIQUE
+   - Noir profond (#0D0D0F)
+   - Orange principal (#F26A2E)
+   - Or doré (#F2B441)
+   - Cuivre (#B87333)
+   - Ambiance grimoire numérique premium
+
+🔐 SYSTÈME D'ACCÈS INTELLIGENT
+   - Visiteur : Voir tout, lire rien
+   - Joueur : Aides seulement
+   - MJ : Accès complet
+   - Éditeur : Dashboard spécialisé
+
+📊 DASHBOARD ÉDITEUR
+   - KPIs en temps réel
+   - Graphiques (évolution, répartition)
+   - Comparaisons temporelles (M-1, T-1, N-1)
+   - Tableau détaillé avec tendances
+
+📱 100% RESPONSIVE
+   - Mobile-first design
+   - Testé sur tous les breakpoints
+   - Navigation adaptée par taille
+
+══════════════════════════════════════════════════════════════════════════════════
+
+COMMANDES UTILES
+──────────────────────────────────────────────────────────────────────────────
+
+npm run dev              Serveur développement (http://localhost:5173)
+npm run build            Construction production
+npm run preview          Prévisualisation du build
+npm run lint             Vérification ESLint
+npm run typecheck        Vérification TypeScript
+
+═══════════════════════════════════════════════════════════════════════════════
+
+DOCUMENTATION COMPLÈTE
+──────────────────────────────────────────────────────────────────────────────
+
+→ README_MVP.md       Vue d'ensemble technique
+→ PROTOTYPE.md        Guide du prototype complet
+→ GUIDE_DEMO.md       Scénario de démonstration (7-10 min)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+BON PITCH ! 🎲✨
+
+La bibliothèque infinie de mondes à explorer
