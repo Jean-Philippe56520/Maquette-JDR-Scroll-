@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Lock, Flame, Building2, Tags } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, Lock, Flame, Building2, Tags, Heart } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { getGameById, getBooksByGameId, getUniverseByName, getPublisherByGameId } from '../data/mockData';
@@ -25,7 +25,9 @@ const CATEGORY_META: Record<BookCategory, { label: string; description: string }
 };
 
 const BookSlide: React.FC<{ book: Book }> = ({ book }) => {
-  const { user } = useUser();
+  const { user, toggleFavorite, isFavorite } = useUser();
+  const navigate = useNavigate();
+  const favorite = isFavorite(book.id);
 
   const hasAccess = () => {
     if (book.requiredPlan === 'free') return user.role !== 'visitor';
@@ -38,10 +40,8 @@ const BookSlide: React.FC<{ book: Book }> = ({ book }) => {
   const locked = !hasAccess();
 
   return (
-    <Link
-      to={`/book/${book.id}`}
-      className="group flex-shrink-0 w-44 sm:w-52 block active:scale-95 transition-transform"
-    >
+    <div className="relative group flex-shrink-0 w-44 sm:w-52">
+      <Link to={`/book/${book.id}`} className="block active:scale-95 transition-transform" aria-label={`Voir la fiche de ${book.title}`}>
       <div className="border rounded-xl overflow-hidden hover:border-[#F26A2E] hover:border-opacity-50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-copper)' }}>
         <div className="relative h-44 overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--bg-surface-alt), var(--bg-base))' }}>
           <img
@@ -81,7 +81,18 @@ const BookSlide: React.FC<{ book: Book }> = ({ book }) => {
           <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{book.readingTime} min</span>
         </div>
       </div>
-    </Link>
+      </Link>
+      <button
+        type="button"
+        onClick={() => user.role === 'visitor' ? navigate('/auth') : toggleFavorite(book.id)}
+        aria-pressed={favorite}
+        aria-label={(favorite ? 'Retirer des favoris : ' : 'Ajouter aux favoris : ') + book.title}
+        title={user.role === 'visitor' ? 'Se connecter pour ajouter un favori' : (favorite ? 'Retirer des favoris' : 'Ajouter aux favoris')}
+        className={"absolute z-10 top-2 right-2 w-9 h-9 flex items-center justify-center rounded-full border border-white/20 shadow-lg transition-all hover:scale-110 " + (favorite ? 'bg-[#F26A2E] text-white' : 'bg-black/75 text-white hover:bg-[#F26A2E]')}
+      >
+        <Heart className="w-5 h-5" fill={favorite ? 'currentColor' : 'none'} />
+      </button>
+    </div>
   );
 };
 

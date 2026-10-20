@@ -40,7 +40,8 @@ function App() {
           <Route path="/book/:bookId" element={<BookDetail />} />
           <Route path="/game/:gameId" element={<GameDetail />} />
           <Route path="/reader/:bookId" element={<Reader />} />
-          <Route path="/library" element={<Library />} />
+          <Route path="/favoris" element={<Library />} />
+          <Route path="/library" element={<Navigate to="/favoris" replace />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/account" element={<Account />} />

@@ -42,7 +42,7 @@ const Pricing: React.FC = () => {
         { label: 'Accès complet au catalogue', included: true },
         { label: 'Fiches jeux & fiches livres', included: true },
         { label: 'Aides de jeu (tous jeux)', included: true },
-        { label: 'Bibliothèque personnelle', included: true },
+        { label: 'Favoris (également disponibles sans abonnement)', included: true },
         { label: 'Reprise de lecture synchronisée', included: true },
         { label: 'Secrets & notes de MJ', included: false },
         { label: 'Scénarios complets', included: false },
@@ -59,7 +59,7 @@ const Pricing: React.FC = () => {
         { label: 'Accès complet au catalogue', included: true },
         { label: 'Fiches jeux & fiches livres', included: true },
         { label: 'Aides de jeu (tous jeux)', included: true },
-        { label: 'Bibliothèque personnelle', included: true },
+        { label: 'Favoris (également disponibles sans abonnement)', included: true },
         { label: 'Reprise de lecture synchronisée', included: true },
         { label: 'Secrets & notes de MJ', included: true },
         { label: 'Scénarios complets', included: true },
@@ -510,7 +510,7 @@ const Pricing: React.FC = () => {
                   onClick={() => { closeModal(); navigate('/home'); }}
                   className="px-8 py-3 bg-gradient-to-r from-[#F26A2E] to-[#F2B441] text-[#0D0D0F] rounded-lg font-bold hover:shadow-lg hover:shadow-[#F26A2E]/20 transition-all active:scale-95"
                 >
-                  {subscriptionAction === 'change' ? 'Retour à ma bibliothèque' : 'Accéder à ma bibliothèque'}
+                  {subscriptionAction === 'change' ? 'Retour à mon espace' : 'Accéder à mon espace'}
                 </button>
               </div>
             )}

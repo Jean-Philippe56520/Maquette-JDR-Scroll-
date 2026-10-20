@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { Flame, Lock } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Flame, Lock, Heart } from 'lucide-react';
 import { Book } from '../data/mockData';
 import { useUser } from '../context/UserContext';
 
@@ -8,7 +8,13 @@ interface BookCardProps {
 }
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => {
-  const { user } = useUser();
+  const { user, toggleFavorite, isFavorite } = useUser();
+  const navigate = useNavigate();
+  const favorite = isFavorite(book.id);
+  const handleFavorite = () => {
+    if (user.role === 'visitor') navigate('/auth');
+    else toggleFavorite(book.id);
+  };
 
   const hasAccess = () => {
     if (book.requiredPlan === 'free') return user.role !== 'visitor';
@@ -21,7 +27,8 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
   const locked = !hasAccess();
 
   return (
-    <Link to={`/book/${book.id}`} className="block active:scale-95 transition-transform">
+    <div className="relative h-full">
+      <Link to={`/book/${book.id}`} className="block h-full active:scale-95 transition-transform" aria-label={`Voir la fiche de ${book.title}`}>
       <div
         className="group h-full rounded-lg overflow-hidden hover:border-opacity-40 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border"
         style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-copper)' }}
@@ -75,7 +82,18 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
           </span>
         </div>
       </div>
-    </Link>
+      </Link>
+      <button
+        type="button"
+        onClick={handleFavorite}
+        aria-pressed={favorite}
+        aria-label={(favorite ? 'Retirer des favoris : ' : 'Ajouter aux favoris : ') + book.title}
+        title={user.role === 'visitor' ? 'Se connecter pour ajouter un favori' : (favorite ? 'Retirer des favoris' : 'Ajouter aux favoris')}
+        className={"absolute z-10 top-2 left-2 w-9 h-9 flex items-center justify-center rounded-full border border-white/20 shadow-lg transition-all hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F2B441] " + (favorite ? 'bg-[#F26A2E] text-white' : 'bg-black/75 text-white hover:bg-[#F26A2E]')}
+      >
+        <Heart className="w-5 h-5" fill={favorite ? 'currentColor' : 'none'} />
+      </button>
+    </div>
   );
 };
 

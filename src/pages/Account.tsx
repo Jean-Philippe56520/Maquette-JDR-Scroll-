@@ -80,9 +80,9 @@ const Account: React.FC = () => {
               {[
                 {
                   label: 'Rôle',
-                  value: user.role === 'visitor' ? 'Visiteur' : user.role === 'player' ? 'Abonné PJ' : user.role === 'gm' ? 'Abonné MJ' : 'Éditeur/Ayant droit'
+                  value: user.role === 'visitor' ? 'Visiteur' : user.role === 'free' ? 'Compte gratuit' : user.role === 'player' ? 'Abonné PJ' : user.role === 'gm' ? 'Abonné MJ' : 'Éditeur/Ayant droit'
                 },
-                { label: 'Statut', value: user.plan ? 'Actif' : 'Essai gratuit' },
+                { label: 'Statut', value: user.plan ? 'Abonné' : user.role === 'free' ? 'Gratuit' : 'Sans abonnement' },
                 { label: 'Membre depuis', value: 'Mai 2026' },
               ].map(item => (
                 <div key={item.label} className="p-4 rounded-lg border" style={{ backgroundColor: 'var(--bg-base)', borderColor: 'var(--border-copper)' }}>

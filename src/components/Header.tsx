@@ -16,7 +16,7 @@ const Header: React.FC = () => {
   const navLinks = [
     { path: '/home', label: 'Accueil' },
     { path: '/catalog', label: 'Catalogue' },
-    { path: '/library', label: 'Bibliothèque' },
+    { path: '/favoris', label: 'Favoris' },
     { path: '/creators', label: 'Créateurs' },
     { path: '/dashboard', label: 'Dashboard' },
   ];
@@ -27,7 +27,7 @@ const Header: React.FC = () => {
     setMobileOpen(false);
   };
 
-  const planLabel = user.plan === 'gm' ? 'MJ' : user.plan === 'player' ? 'PJ' : user.role === 'publisher' ? 'Éditeur' : 'Visiteur';
+  const planLabel = user.plan === 'gm' ? 'MJ' : user.plan === 'player' ? 'PJ' : user.role === 'publisher' ? 'Éditeur' : user.role === 'free' ? 'Gratuit' : 'Visiteur';
 
   return (
     <header

@@ -20,17 +20,22 @@ const Reader: React.FC = () => {
     );
   }
 
-  if (user.role === 'visitor') {
+  const canRead = user.role !== 'visitor' && (
+    book.requiredPlan === 'free' ||
+    (book.requiredPlan === 'player' && (user.plan === 'player' || user.plan === 'gm')) ||
+    (book.requiredPlan === 'gm' && user.plan === 'gm')
+  );
+  if (!canRead) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 transition-colors duration-300" style={{ backgroundColor: 'var(--bg-base)' }}>
         <div className="max-w-md text-center">
-          <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Connexion requise</h1>
-          <p className="mb-8" style={{ color: 'var(--text-muted)' }}>Créez un compte ou connectez-vous pour accéder à la lecture.</p>
+          <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>{user.role === 'visitor' ? 'Connexion requise' : 'Abonnement requis'}</h1>
+          <p className="mb-8" style={{ color: 'var(--text-muted)' }}>{user.role === 'visitor' ? 'Créez un compte ou connectez-vous pour accéder à la lecture.' : 'Votre formule ne permet pas de lire cet ouvrage. Vous pouvez néanmoins l’ajouter à vos favoris.'}</p>
           <button
-            onClick={() => navigate('/auth')}
+            onClick={() => navigate(user.role === 'visitor' ? '/auth' : '/pricing')}
             className="px-6 py-3 bg-gradient-to-r from-[#F26A2E] to-[#F2B441] text-[#0D0D0F] rounded-lg font-bold hover:shadow-glow-orange transition-all"
           >
-            Se connecter
+            {user.role === 'visitor' ? 'Se connecter' : 'Voir les offres'}
           </button>
         </div>
       </div>
@@ -61,7 +66,7 @@ const Reader: React.FC = () => {
     ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
 
     Cet exemple montre comment le contenu s'affiche en fonction de votre profil utilisateur.
-    Vous pouvez maintenant lire, explorer et progresser dans votre bibliothèque personnelle.
+    Vous pouvez maintenant lire, explorer et progresser dans votre espace de lecture.
   `;
 
   return (

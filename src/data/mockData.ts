@@ -1,4 +1,4 @@
-export type UserRole = "visitor" | "player" | "gm" | "publisher";
+export type UserRole = "visitor" | "free" | "player" | "gm" | "publisher";
 
 export interface User {
   id: string;
@@ -2686,6 +2686,7 @@ export const books: Book[] = [
 // Mock user profiles
 export const mockProfiles: Record<UserRole, User> = {
   visitor: { id: "v1", name: "Explorateur", role: "visitor" },
+  free: { id: "free1", name: "Camille", role: "free", email: "gratuit@jdrscroll.test" },
   player: {
     id: "p1",
     name: "Aventurier Valentin",

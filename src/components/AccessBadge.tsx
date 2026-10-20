@@ -13,7 +13,7 @@ const AccessBadge: React.FC<AccessBadgeProps> = ({ requiredPlan, category, compa
   const { user } = useUser();
 
   const hasAccess = () => {
-    if (requiredPlan === 'free') return true;
+    if (requiredPlan === 'free') return user.role !== 'visitor';
     if (!user.plan) return false;
     if (requiredPlan === 'player') return user.plan === 'player' || user.plan === 'gm';
     if (requiredPlan === 'gm') return user.plan === 'gm';

@@ -10,14 +10,14 @@ const Auth: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'player' | 'gm'>('player');
+  const [selectedPlan, setSelectedPlan] = useState<'free' | 'player' | 'gm'>('free');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      setUserRole(mode === 'login' ? 'gm' : (selectedPlan === 'gm' ? 'gm' : 'player'));
+      setUserRole(mode === 'login' ? 'gm' : selectedPlan);
       navigate('/home');
     }, 800);
   };
@@ -56,7 +56,7 @@ const Auth: React.FC = () => {
               {mode === 'login' ? 'Connexion' : 'Créer un compte'}
             </h1>
             <p className="text-sm mb-7" style={{ color: 'var(--text-muted)' }}>
-              {mode === 'login' ? 'Accédez à votre bibliothèque JDR' : 'Rejoignez la communauté JDRscroll'}
+              {mode === 'login' ? 'Accédez à vos favoris JDR' : 'Rejoignez la communauté JDRscroll'}
             </p>
 
             {/* Mode toggle */}
@@ -84,8 +84,17 @@ const Auth: React.FC = () => {
               {mode === 'register' && (
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>
-                    Votre abonnement
+                    Votre formule : compte gratuit ou abonnement
                   </label>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPlan('free')}
+                    className="w-full p-3 mb-3 rounded-lg border-2 transition-all active:scale-95 text-left"
+                    style={{ borderColor: selectedPlan === 'free' ? '#F26A2E' : 'var(--border-copper)', backgroundColor: selectedPlan === 'free' ? 'var(--bg-surface-alt)' : 'transparent' }}
+                  >
+                    <div className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Compte gratuit — 0 €</div>
+                    <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Accès au catalogue et aux favoris, sans abonnement de lecture.</div>
+                  </button>
                   <div className="grid grid-cols-2 gap-3">
                     <button
                       type="button"
@@ -99,7 +108,7 @@ const Auth: React.FC = () => {
                       <BookOpen className="w-4 h-4 text-[#F2B441] mb-1.5" />
                       <div className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>PJ</div>
                       <div className="text-xs text-[#F26A2E] font-semibold mb-1">5,99 €/mois</div>
-                      <div className="text-[10px] leading-snug" style={{ color: 'var(--text-muted)' }}>Catalogue complet, aides de joueur, bibliothèque perso</div>
+                      <div className="text-[10px] leading-snug" style={{ color: 'var(--text-muted)' }}>Catalogue complet et aides de jeu PJ</div>
                     </button>
                     <button
                       type="button"

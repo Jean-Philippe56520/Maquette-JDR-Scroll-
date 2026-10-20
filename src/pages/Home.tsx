@@ -19,7 +19,7 @@ const HorizontalScroll: React.FC<{ children: React.ReactNode }> = ({ children })
 };
 
 const Home: React.FC = () => {
-  const { user, library } = useUser();
+  const { user, favorites } = useUser();
   const trending = getTrendingBooks().slice(0, 8);
   const newBooks = getNewBooks().slice(0, 8);
   const games = getAllGames().slice(0, 6);
@@ -28,7 +28,7 @@ const Home: React.FC = () => {
 
   const isConnected = user.role !== 'visitor';
 
-  const recentBooks = [...library].reverse().slice(0, 3)
+  const recentBooks = [...favorites].reverse().slice(0, 3)
     .map(id => allBooks.find(b => b.id === id))
     .filter(Boolean) as typeof allBooks;
 
@@ -141,13 +141,13 @@ const Home: React.FC = () => {
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
             <div>
               <p className="text-[#F26A2E] text-xs font-semibold uppercase tracking-wider mb-1">
-                {user.plan === 'gm' ? 'MJ' : 'PJ'}
+                {user.role === 'free' ? 'Compte gratuit' : user.plan === 'gm' ? 'MJ' : 'PJ'}
               </p>
               <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 Bienvenue, {user.name.split(' ')[0]}
               </h1>
               <p className="mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
-                {user.plan === 'gm' ? 'Accès complet · Secrets, scénarios, aides de jeu' : 'Accès PJ · Aides de jeu illimitées'}
+                {user.role === 'free' ? 'Explorez le catalogue et enregistrez vos favoris librement' : user.plan === 'gm' ? 'Accès complet · Secrets, scénarios, aides de jeu' : 'Accès PJ · Aides de jeu illimitées'}
               </p>
             </div>
             {user.role === 'publisher' ? (
@@ -202,17 +202,17 @@ const Home: React.FC = () => {
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-[#F2B441]" />
-                  <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Reprendre la lecture</h2>
+                  <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Mes ouvrages favoris</h2>
                 </div>
-                <Link to="/library" className="text-sm text-[#F26A2E] hover:text-[#F2B441] flex items-center gap-1 transition-colors active:scale-95">
-                  Ma bibliothèque <ChevronRight className="w-4 h-4" />
+                <Link to="/favoris" className="text-sm text-[#F26A2E] hover:text-[#F2B441] flex items-center gap-1 transition-colors active:scale-95">
+                  Mes favoris <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="flex gap-4 flex-wrap sm:flex-nowrap">
                 {recentBooks.map(book => (
                   <Link
                     key={book.id}
-                    to={`/reader/${book.id}`}
+                    to={`/book/${book.id}`}
                     className="flex-shrink-0 w-56 rounded-lg overflow-hidden border transition-all active:scale-95 group hover:border-[#F26A2E] hover:border-opacity-40"
                     style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-copper)' }}
                   >

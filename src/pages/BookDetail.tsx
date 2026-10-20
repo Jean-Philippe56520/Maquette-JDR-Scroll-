@@ -1,6 +1,6 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, BookmarkPlus, BookmarkCheck, Building2 } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, Heart, Building2 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { getBookById, getBooksByGameId, getPublisherByGameId } from '../data/mockData';
@@ -9,9 +9,10 @@ import BookCard from '../components/BookCard';
 
 const BookDetail: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>();
+  const navigate = useNavigate();
   const book = bookId ? getBookById(bookId) : undefined;
-  const { user, toggleLibrary, isInLibrary } = useUser();
-  const inLibrary = book ? isInLibrary(book.id) : false;
+  const { user, toggleFavorite, isFavorite } = useUser();
+  const favorite = book ? isFavorite(book.id) : false;
 
   if (!book) {
     return (
@@ -28,7 +29,11 @@ const BookDetail: React.FC = () => {
   }
 
   const publisher = getPublisherByGameId(book.gameId);
-  const hasAccess = () => user.role !== 'visitor';
+  const hasAccess = () => user.role !== 'visitor' && (
+    book.requiredPlan === 'free' ||
+    (book.requiredPlan === 'player' && (user.plan === 'player' || user.plan === 'gm')) ||
+    (book.requiredPlan === 'gm' && user.plan === 'gm')
+  );
   const relatedBooks = getBooksByGameId(book.gameId).filter(b => b.id !== book.id).slice(0, 4);
 
   return (
@@ -111,29 +116,22 @@ const BookDetail: React.FC = () => {
                     </Link>
                   ) : (
                     <Link
-                      to="/auth"
+                      to={user.role === 'visitor' ? '/auth' : '/pricing'}
                       className="px-6 py-3 bg-gradient-to-r from-[#F26A2E] to-[#F2B441] text-[#0D0D0F] rounded-lg font-bold hover:shadow-lg transition-all hover:-translate-y-1 active:scale-95"
                     >
-                      Se connecter pour lire
+                      {user.role === 'visitor' ? 'Se connecter pour lire' : 'Voir les offres pour lire'}
                     </Link>
                   )}
-                  {user.role !== 'visitor' && (
-                    <button
-                      onClick={() => toggleLibrary(book.id)}
-                      className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all active:scale-95 border ${
-                        inLibrary
-                          ? 'bg-gradient-to-r from-[#F26A2E] to-[#F2B441] text-[#0D0D0F] hover:shadow-lg hover:shadow-[#F26A2E]/20 hover:-translate-y-0.5 border-transparent'
-                          : ''
-                      }`}
-                      style={!inLibrary ? { borderColor: 'var(--border-copper-hover)', color: 'var(--text-primary)' } : {}}
-                    >
-                      {inLibrary ? (
-                        <><BookmarkCheck className="w-5 h-5" /> Retirer de ma bibliothèque</>
-                      ) : (
-                        <><BookmarkPlus className="w-5 h-5" /> Ajouter à ma bibliothèque</>
-                      )}
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => user.role === 'visitor' ? navigate('/auth') : toggleFavorite(book.id)}
+                    aria-pressed={favorite}
+                    className={"flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all active:scale-95 border " + (favorite ? 'bg-gradient-to-r from-[#F26A2E] to-[#F2B441] text-[#0D0D0F] hover:shadow-lg border-transparent' : '')}
+                    style={!favorite ? { borderColor: 'var(--border-copper-hover)', color: 'var(--text-primary)' } : {}}
+                  >
+                    <Heart className="w-5 h-5" fill={favorite ? 'currentColor' : 'none'} />
+                    {favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                  </button>
                 </div>
               </div>
             </div>
